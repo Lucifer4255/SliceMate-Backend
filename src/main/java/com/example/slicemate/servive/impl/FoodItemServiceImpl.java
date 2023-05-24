@@ -1,5 +1,6 @@
 package com.example.slicemate.servive.impl;
 
+import com.example.slicemate.Exception.ResourceAlreadyExistsException;
 import com.example.slicemate.Exception.ResourceNotFoundException;
 import com.example.slicemate.entity.FoodItem;
 import com.example.slicemate.payloads.FoodItemDto;
@@ -32,8 +33,13 @@ public class FoodItemServiceImpl implements FoodItemService {
     @Override
     public FoodItemDto addFoodItem(FoodItemDto foodItemDto) {
         FoodItem foodItem = this.dtoToItem(foodItemDto);
+        if(foodItemRepository.existsById(foodItem.getFoodItemId())) {
+        	throw new ResourceAlreadyExistsException("Food Item","id",foodItem.getFoodItemId());
+        }
+        else {
         FoodItem savedItem = this.foodItemRepository.save(foodItem);
         return this.itemToDto(savedItem);
+        }
     }
 
     @Override

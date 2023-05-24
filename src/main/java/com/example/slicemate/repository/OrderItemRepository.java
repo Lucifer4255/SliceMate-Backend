@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem,Integer> {
     public List<OrderItem> findByUser(String id);
+    public Boolean existsByUser(String id);
 }

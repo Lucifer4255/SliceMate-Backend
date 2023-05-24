@@ -1,13 +1,14 @@
 package com.example.slicemate.service;
 
 import com.example.slicemate.entity.CartItem;
+import com.example.slicemate.payloads.CartItemDto;
 
 import java.util.List;
 
 public interface CartItemService {
 
-    public List<CartItem> showCart(String id);
-    public void addCartItem(CartItem cartItem);
+    public List<CartItemDto> showCart(String id);
+    public CartItemDto addCartItem(CartItemDto cartItemDto);
 
     public void deletecartItem(Integer id);
 

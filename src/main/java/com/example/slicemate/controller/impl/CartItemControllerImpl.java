@@ -2,8 +2,13 @@ package com.example.slicemate.controller.impl;
 
 import com.example.slicemate.controller.CartItemController;
 import com.example.slicemate.entity.CartItem;
+import com.example.slicemate.payloads.ApiResponse;
+import com.example.slicemate.payloads.CartItemDto;
 import com.example.slicemate.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,26 +20,31 @@ public class CartItemControllerImpl implements CartItemController {
     private CartItemService cartItemService;
     //fetch Cart elements
     @GetMapping("/{id}")
-    public List<CartItem> showCartItems(@PathVariable String id){
-        return cartItemService.showCart(id);
+    public ResponseEntity<List<CartItemDto>> showCartItems(@PathVariable String id){
+//        cartItemService.showCart(id);
+    	
+        return ResponseEntity.ok(this.cartItemService.showCart(id));
     }
 
     //addCartItems
     @PostMapping("/addtoCart")
-    public void addToCart(@RequestBody CartItem cartItem){
-        cartItemService.addCartItem(cartItem);
+    public ResponseEntity<CartItemDto> addToCart(@RequestBody CartItemDto cartItemDto){
+        CartItemDto addedItem = this.cartItemService.addCartItem(cartItemDto);
+        return new ResponseEntity<>(addedItem,HttpStatus.CREATED);
     }
 
-    //deleteitem
+    //deleteItem
 
     @DeleteMapping("/deleteitem/{id}")
-    public void deleteItem(@PathVariable Integer id) {
-        cartItemService.deletecartItem(id);
+    public ResponseEntity<ApiResponse> deleteItem(@PathVariable Integer id) {
+        this.cartItemService.deletecartItem(id);
+        return new ResponseEntity<ApiResponse>(new ApiResponse("Item deleted successfully",true),HttpStatus.OK);
     }
 
     @DeleteMapping("/emptyCart/{id}")
-    public void emptyCart(String id) {
+    public ResponseEntity<ApiResponse> emptyCart(@PathVariable String id) {
         cartItemService.deleteAllItems(id);
+        return new ResponseEntity<ApiResponse>(new ApiResponse("All Items deleted successfully",true),HttpStatus.OK);
     }
 
 
