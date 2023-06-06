@@ -21,9 +21,9 @@ public class FoodItem {
     private String Category;
     private Double price;
     @OneToOne(mappedBy = "foodItem",cascade = CascadeType.ALL)
-    @JsonBackReference
+//    @JsonBackReference
     private CartItem cartItem;
     @OneToOne(mappedBy = "foodItem")
-    @JsonBackReference
+//    @JsonBackReference
     private OrderItem orderItem;
 }

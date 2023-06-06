@@ -1,5 +1,6 @@
 package com.example.slicemate.servive.impl;
 
+import com.example.slicemate.Exception.ResourceAlreadyExistsException;
 import com.example.slicemate.entity.User;
 import com.example.slicemate.payloads.UserDto;
 import com.example.slicemate.repository.UserRepository;
@@ -30,9 +31,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = this.dtoToUser(userDto);
+        if(this.userRepository.existsById(user.getUserId())){
+            throw new ResourceAlreadyExistsException("User","id", user.getUserId());
+        }
         User savedUser = this.userRepository.save(user);
         return this.userToDto(savedUser);
     }
-
 
 }

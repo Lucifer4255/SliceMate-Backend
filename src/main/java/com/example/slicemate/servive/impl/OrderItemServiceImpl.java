@@ -2,25 +2,33 @@ package com.example.slicemate.servive.impl;
 
 import com.example.slicemate.Exception.ResourceAlreadyExistsException;
 import com.example.slicemate.Exception.ResourceNotFoundException;
+import com.example.slicemate.entity.FoodItem;
 import com.example.slicemate.entity.OrderItem;
-import com.example.slicemate.entity.OrderItem;
+import com.example.slicemate.entity.User;
 import com.example.slicemate.payloads.OrderItemDto;
+import com.example.slicemate.repository.FoodItemRepository;
 import com.example.slicemate.repository.OrderItemRepository;
+import com.example.slicemate.repository.UserRepository;
 import com.example.slicemate.service.OrderItemService;
-import org.aspectj.weaver.ast.Or;
+import jakarta.persistence.criteria.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
 public class OrderItemServiceImpl implements OrderItemService {
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private FoodItemRepository foodRepo;
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -34,25 +42,24 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItem;
     }
     @Override
-    public List<OrderItemDto> getAllOrderItems(String id) {
-        if(this.orderItemRepository.existsByUser(id)) {
-        	List<OrderItem> items = (List<OrderItem>) this.orderItemRepository.findByUser(id);
+    public List<OrderItemDto> getAllOrderItems(Integer id) {
+            User user= this.userRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("User","id",id));
+        	List<OrderItem> items = (List<OrderItem>) this.orderItemRepository.findByUser(user);
         	List<OrderItemDto> itemDtos = items.stream().map(orderItem -> this.itemToDto(orderItem)).collect(Collectors.toList());
         	return itemDtos;
-        }
-        else throw new ResourceNotFoundException("User with orders", "id", id);
     }
 
     @Override
-    public OrderItemDto saveItem(OrderItemDto orderItemDto) {
+    public OrderItemDto saveItem(OrderItemDto orderItemDto, Integer foodId, Integer userId) {
     	OrderItem orderItem=this.dtoToItem(orderItemDto);
-        if(this.orderItemRepository.existsById(orderItem.getOrderItemId())) {
-        	throw new ResourceAlreadyExistsException("order", "id", orderItem.getOrderItemId());
-        }
-        else {
-        	OrderItem savedItem = this.orderItemRepository.save(orderItem);
-        	return this.itemToDto(savedItem);
-        }
+        User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User","id",userId));
+        FoodItem foodItem = this.foodRepo.findById(foodId).orElseThrow(() -> new ResourceNotFoundException("Food item","id",foodId));
+        orderItem.setUser(user);
+        orderItem.setFoodItem(foodItem);
+
+        OrderItem createdOrder = this.orderItemRepository.save(orderItem);
+        return this.itemToDto(createdOrder);
+
     }
 
 }

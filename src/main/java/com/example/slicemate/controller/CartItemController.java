@@ -1,6 +1,5 @@
 package com.example.slicemate.controller;
 
-import com.example.slicemate.entity.CartItem;
 import com.example.slicemate.payloads.ApiResponse;
 import com.example.slicemate.payloads.CartItemDto;
 
@@ -11,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 public interface CartItemController {
-    public ResponseEntity<List<CartItemDto>> showCartItems(@PathVariable String id);
-    public ResponseEntity<CartItemDto> addToCart(@RequestBody CartItemDto cartItemDto);
+    public ResponseEntity<List<CartItemDto>> showCartItems(@PathVariable Integer id);
+    public ResponseEntity<CartItemDto> addToCart(@RequestBody CartItemDto cartItemDto,@PathVariable Integer userId,@PathVariable Integer foodId);
     public ResponseEntity<ApiResponse> deleteItem(@PathVariable Integer id);
-    public ResponseEntity<ApiResponse> emptyCart(@PathVariable String id);
+    public ResponseEntity<ApiResponse> emptyCart(@PathVariable Integer id);
 }

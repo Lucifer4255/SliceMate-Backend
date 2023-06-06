@@ -5,6 +5,7 @@ import com.example.slicemate.entity.FoodItem;
 import com.example.slicemate.payloads.ApiResponse;
 import com.example.slicemate.payloads.FoodItemDto;
 import com.example.slicemate.service.FoodItemService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/foodItems")
 public class FoodItemControllerImpl implements FoodItemController {
     @Autowired
     private FoodItemService foodItemService;
@@ -30,13 +32,13 @@ public class FoodItemControllerImpl implements FoodItemController {
 
     //update food items
     @PutMapping("/updateItems/{id}")
-    public ResponseEntity<FoodItemDto> updateFood(@RequestBody FoodItemDto foodItemDto, @PathVariable Integer id) {
+    public ResponseEntity<FoodItemDto> updateFood(@RequestBody @Valid FoodItemDto foodItemDto, @PathVariable Integer id) {
         FoodItemDto updatedItemDto = this.foodItemService.updateFoodItems(foodItemDto, id);
         return ResponseEntity.ok(updatedItemDto);
     }
     //Add Food item
     @PostMapping("/addItems")
-    public ResponseEntity<FoodItemDto> addFoodItem(@RequestBody FoodItemDto foodItemDto) {
+    public ResponseEntity<FoodItemDto> addFoodItem(@RequestBody @Valid FoodItemDto foodItemDto) {
         FoodItemDto createdItem = this.foodItemService.addFoodItem(foodItemDto);
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
