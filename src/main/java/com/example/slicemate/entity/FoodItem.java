@@ -20,10 +20,4 @@ public class FoodItem {
     private String imageUrl;
     private String Category;
     private Double price;
-    @OneToOne(mappedBy = "foodItem",cascade = CascadeType.ALL)
-//    @JsonBackReference
-    private CartItem cartItem;
-    @OneToOne(mappedBy = "foodItem")
-//    @JsonBackReference
-    private OrderItem orderItem;
 }

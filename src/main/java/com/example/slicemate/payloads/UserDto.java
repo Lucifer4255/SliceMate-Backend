@@ -32,8 +32,4 @@ public class UserDto {
     @NotNull
 //    @Range(min=10,max=10,message = "Phone number must be valid")
     private Long phoneNumber;
-    @JsonBackReference
-    private List<CartItem> cartItemList;
-    @JsonBackReference
-    private List<OrderItem> orderItemList;
 }

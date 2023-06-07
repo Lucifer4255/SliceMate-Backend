@@ -16,11 +16,9 @@ public class CartItem {
     @SequenceGenerator(name="CART_SEQ",sequenceName="CART_SEQ",allocationSize=1)
     private Integer cartItemId;
     @ManyToOne
-//    @JsonManagedReference
     @JoinColumn(name="user")
     private User user;
     @OneToOne
-//    @JsonManagedReference
     private FoodItem foodItem;
     private Integer qty;
     private Double price;

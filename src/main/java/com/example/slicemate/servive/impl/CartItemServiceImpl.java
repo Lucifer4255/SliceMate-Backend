@@ -72,6 +72,8 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public void deleteAllItems(Integer id) {
         User user =this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user","id",id));
-        this.cartItemRepository.deleteAllByUser(user);
+        List<CartItem> items = new ArrayList<>();
+        items = cartItemRepository.findByUser(user);
+        cartItemRepository.deleteAllInBatch(items);
     }
 }

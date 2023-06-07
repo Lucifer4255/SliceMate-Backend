@@ -23,14 +23,12 @@ public class OrderItemDto {
 	@NotNull
 	private Integer orderItemId;
 	@NotNull
-	@JsonManagedReference
 	private FoodItem foodItem;
 	@NotNull
 	private Integer qty;
 	@NotNull
 	private Double price;
 	@NotNull
-	@JsonManagedReference
 	private User user;
 	@NotNull
 	private Date orderedAt;

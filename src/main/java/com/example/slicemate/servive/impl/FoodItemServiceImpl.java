@@ -53,8 +53,6 @@ public class FoodItemServiceImpl implements FoodItemService {
     public FoodItemDto updateFoodItems(FoodItemDto foodItemDto, Integer id) {
         FoodItem foodItem = this.foodItemRepository.findById(id).orElseThrow(() ->new ResourceNotFoundException("Food Item","id",id));
         foodItem.setFoodItemId(foodItemDto.getFoodItemId());
-        foodItem.setCartItem(foodItemDto.getCartItem());
-        foodItem.setOrderItem(foodItemDto.getOrderItem());
         foodItem.setName(foodItemDto.getName());
         foodItem.setCategory(foodItemDto.getCategory());
         foodItem.setDescription(foodItemDto.getDescription());

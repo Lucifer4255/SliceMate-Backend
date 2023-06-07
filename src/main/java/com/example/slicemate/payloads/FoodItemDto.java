@@ -26,8 +26,4 @@ public class FoodItemDto {
     private String Category;
     @NotNull
     private Double price;
-    @JsonBackReference
-    private CartItem cartItem;
-    @JsonBackReference
-    private OrderItem orderItem;
 }

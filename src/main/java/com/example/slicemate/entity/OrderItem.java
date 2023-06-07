@@ -18,13 +18,11 @@ public class OrderItem {
     @SequenceGenerator(name="ORDER_SEQ",sequenceName="ORDER_SEQ",allocationSize=1)
     private Integer orderItemId;
     @OneToOne
-//    @JsonManagedReference
     private FoodItem foodItem;
     private Integer qty;
     private Double price;
     @ManyToOne
     @JoinColumn(name="user")
-//    @JsonManagedReference
     private User user;
     private Timestamp orderedAt;
 }

@@ -21,10 +21,9 @@ public class CartItemDto {
 	@NotNull
 	private Integer cartItemId;
 //	@NotNull
-@JsonManagedReference
 	private User user;
 //	@NotNull
-@JsonManagedReference
+
 	private FoodItem foodItem;
 	@NotNull
 	private Integer qty;

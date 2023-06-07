@@ -26,10 +26,4 @@ public class User {
     private String password;
     private String role;
     private Long phoneNumber;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-//    @JsonBackReference
-    private List<CartItem> cartItemList;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-//    @JsonBackReference
-    private List<OrderItem> orderItemList;
 }
