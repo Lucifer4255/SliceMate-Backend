@@ -22,8 +22,10 @@ public class FoodItemControllerImpl implements FoodItemController {
     public String helloWorld(){
         return "Hello World";
     }
-
-
+    @GetMapping("/getitem/{id}")
+    public ResponseEntity<FoodItemDto> getFoodbyId(@PathVariable Integer id){
+    	return ResponseEntity.ok(foodItemService.getFoodItem(id));
+    }
     //Get All food Items
     @GetMapping("/getItems")
     public ResponseEntity<List<FoodItemDto>> getFood(){
@@ -48,6 +50,11 @@ public class FoodItemControllerImpl implements FoodItemController {
         this.foodItemService.deleteFoodItem(id);
         return new ResponseEntity<ApiResponse>(new ApiResponse("Item deleted successfully",true),HttpStatus.OK);
     }
+
+	@GetMapping("/searchFood")
+	public ResponseEntity<List<FoodItemDto>> searchFoodbyName(@RequestParam("name") String name) {
+		return ResponseEntity.ok(this.foodItemService.searchByName(name));
+	}
 
 
 }

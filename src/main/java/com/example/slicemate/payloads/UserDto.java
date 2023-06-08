@@ -2,6 +2,7 @@ package com.example.slicemate.payloads;
 
 import com.example.slicemate.entity.CartItem;
 import com.example.slicemate.entity.OrderItem;
+import com.example.slicemate.entity.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.*;
@@ -28,7 +29,7 @@ public class UserDto {
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",message = "Password must contain Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")
     private String password;
     @NotNull
-    private String role;
+    private Role role;
     @NotNull
 //    @Range(min=10,max=10,message = "Phone number must be valid")
     private Long phoneNumber;

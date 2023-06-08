@@ -14,4 +14,8 @@ public interface FoodItemService {
     public FoodItemDto updateFoodItems(FoodItemDto foodItemDto, Integer id);
 
     public void deleteFoodItem(Integer id);
+
+	public FoodItemDto getFoodItem(Integer id);
+
+	public List<FoodItemDto> searchByName(String name);
 }

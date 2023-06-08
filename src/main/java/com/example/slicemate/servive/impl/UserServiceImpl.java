@@ -1,6 +1,7 @@
 package com.example.slicemate.servive.impl;
 
 import com.example.slicemate.Exception.ResourceAlreadyExistsException;
+import com.example.slicemate.Exception.ResourceNotFoundException;
 import com.example.slicemate.entity.User;
 import com.example.slicemate.payloads.UserDto;
 import com.example.slicemate.repository.UserRepository;
@@ -38,4 +39,24 @@ public class UserServiceImpl implements UserService {
         return this.userToDto(savedUser);
     }
 
+	@Override
+	public UserDto getUser(Integer id) {
+		User user = this.userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+		return this.userToDto(user);
+	}
+
+	@Override
+	public UserDto updateUser(UserDto userDto, Integer id) {
+		User user = this.userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("user", "id", id));
+		user.setUserId(userDto.getUserId());
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		user.setPassword(userDto.getPassword());
+		user.setRole(userDto.getRole());
+		user.setPhoneNumber(userDto.getPhoneNumber());
+		
+		User updatedItem = this.userRepository.save(user);
+		return this.userToDto(updatedItem);
+	}
+	
 }

@@ -23,4 +23,15 @@ public class UserControllerImpl implements UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
+	@GetMapping("/{id}")
+	public ResponseEntity<UserDto> getUserDetails(@PathVariable Integer id) {
+		return ResponseEntity.ok(userService.getUser(id));
+	}
+
+	@Override
+	public ResponseEntity<UserDto> updateUserDetails(UserDto userDto, Integer id) {
+		UserDto updatedUser = this.userService.updateUser(userDto,id);
+		return ResponseEntity.ok(updatedUser);
+	}
+
 }

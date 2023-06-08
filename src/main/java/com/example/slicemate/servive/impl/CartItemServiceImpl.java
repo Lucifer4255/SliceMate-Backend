@@ -21,59 +21,83 @@ import java.util.stream.Collectors;
 
 @Service
 public class CartItemServiceImpl implements CartItemService {
-    @Autowired
-    private CartItemRepository cartItemRepository;
-    @Autowired
-    private UserRepository userRepo;
-    @Autowired
-    private FoodItemRepository foodRepo;
-    
-    @Autowired
-    private ModelMapper modelMapper;
+	@Autowired
+	private CartItemRepository cartItemRepository;
+	@Autowired
+	private UserRepository userRepo;
+	@Autowired
+	private FoodItemRepository foodRepo;
 
-    public CartItemDto itemToDto(CartItem cartItem){
-        CartItemDto CartItemDto = this.modelMapper.map(cartItem,CartItemDto.class);
-        return CartItemDto;
-    }
+	@Autowired
+	private ModelMapper modelMapper;
 
-    public CartItem dtoToItem(CartItemDto cartItemDto){
-        CartItem cartItem = this.modelMapper.map(cartItemDto,CartItem.class);
-        return cartItem;
-    }
+	public CartItemDto itemToDto(CartItem cartItem) {
+		CartItemDto CartItemDto = this.modelMapper.map(cartItem, CartItemDto.class);
+		return CartItemDto;
+	}
 
+	public CartItem dtoToItem(CartItemDto cartItemDto) {
+		CartItem cartItem = this.modelMapper.map(cartItemDto, CartItem.class);
+		return cartItem;
+	}
 
-    @Override
-    public List<CartItemDto> showCart(Integer id) {
-        List<CartItem> items =new ArrayList<>();
-        User user =this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User","id",id));
-        items = this.cartItemRepository.findByUser(user);
-        List<CartItemDto> itemDtos = items.stream().map(cartItem -> this.itemToDto(cartItem)).collect(Collectors.toList());
-        return itemDtos;
-    }
+	@Override
+	public List<CartItemDto> showCart(Integer id) {
+		List<CartItem> items = new ArrayList<>();
+		User user = this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+		items = this.cartItemRepository.findByUser(user);
+		List<CartItemDto> itemDtos = items.stream().map(cartItem -> this.itemToDto(cartItem))
+				.collect(Collectors.toList());
+		return itemDtos;
+	}
 
-    @Override
-    public CartItemDto addCartItem(CartItemDto cartItemDto, Integer userId, Integer foodId) {
-        CartItem cartItem = dtoToItem(cartItemDto);
-        User user=this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User","id",userId));
-        FoodItem foodItem=this.foodRepo.findById(foodId).orElseThrow(() -> new ResourceNotFoundException("FoodItem","id",foodId));
-        cartItem.setUser(user);
-        cartItem.setFoodItem(foodItem);
+	@Override
+	public CartItemDto addCartItem(CartItemDto cartItemDto, Integer userId, Integer foodId) {
+		CartItem cartItem = dtoToItem(cartItemDto);
+		User user = this.userRepo.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+		FoodItem foodItem = this.foodRepo.findById(foodId)
+				.orElseThrow(() -> new ResourceNotFoundException("FoodItem", "id", foodId));
+		if(cartItemRepository.existsByUser(user)) {
+			throw new ResourceAlreadyExistsException("cart item","userid",user.getUserId());
+		}
+		else cartItem.setUser(user);
+		if(cartItemRepository.existsByFoodItem(foodItem)) {
+			throw new ResourceAlreadyExistsException("cart item","foodItemid",foodItem.getFoodItemId());
+		}
+		else cartItem.setFoodItem(foodItem);
+		
 
-        CartItem newCart = this.cartItemRepository.save(cartItem);
-        return this.itemToDto(newCart);
-    }
+		CartItem newCart = this.cartItemRepository.save(cartItem);
+		return this.itemToDto(newCart);
+	}
 
-    @Override
-    public void deletecartItem(Integer id) {
-        CartItem cartItem = this.cartItemRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart Item", "id", id));
-        this.cartItemRepository.delete(cartItem);
-    }
+	@Override
+	public void deletecartItem(Integer id) {
+		CartItem cartItem = this.cartItemRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Cart Item", "id", id));
+		this.cartItemRepository.delete(cartItem);
+	}
 
-    @Override
-    public void deleteAllItems(Integer id) {
-        User user =this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user","id",id));
-        List<CartItem> items = new ArrayList<>();
-        items = cartItemRepository.findByUser(user);
-        cartItemRepository.deleteAllInBatch(items);
-    }
+	@Override
+	public void deleteAllItems(Integer id) {
+		User user = this.userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
+		List<CartItem> items = new ArrayList<>();
+		items = cartItemRepository.findByUser(user);
+		cartItemRepository.deleteAllInBatch(items);
+	}
+
+	@Override
+	public CartItemDto updateItem(CartItemDto cartItemDto,Integer id) {
+		CartItem cartItem = this.cartItemRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("cartItem", "id", id));
+		cartItem.setCartItemId(cartItemDto.getCartItemId());
+		cartItem.setFoodItem(cartItemDto.getFoodItem());
+		cartItem.setPrice(cartItemDto.getPrice());
+		cartItem.setQty(cartItemDto.getQty());
+		cartItem.setUser(cartItemDto.getUser());
+		
+		CartItem updatedItem = this.cartItemRepository.save(cartItem);
+		return this.itemToDto(updatedItem);
+	}
 }

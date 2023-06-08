@@ -12,4 +12,5 @@ public interface CartItemService {
     public void deletecartItem(Integer id);
 
     public void deleteAllItems(Integer id);
+	public CartItemDto updateItem(CartItemDto cartItemDto, Integer id);
 }

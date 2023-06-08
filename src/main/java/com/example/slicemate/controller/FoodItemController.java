@@ -13,6 +13,8 @@ import java.util.List;
 public interface FoodItemController {
     public String helloWorld();
     public ResponseEntity<FoodItemDto> addFoodItem(@RequestBody FoodItemDto foodItemDto);
+    public ResponseEntity<FoodItemDto> getFoodbyId(@PathVariable Integer id);
+    public ResponseEntity<List<FoodItemDto>> searchFoodbyName(@PathVariable String name);
     public ResponseEntity<List<FoodItemDto>> getFood();
     public ResponseEntity<FoodItemDto> updateFood(@RequestBody FoodItemDto foodItemDto, @PathVariable Integer id);
     public ResponseEntity<ApiResponse> deleteFood(@PathVariable Integer id);

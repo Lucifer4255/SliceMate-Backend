@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/api/cart")
 public class CartItemControllerImpl implements CartItemController {
     @Autowired
     private CartItemService cartItemService;
@@ -31,7 +31,11 @@ public class CartItemControllerImpl implements CartItemController {
         CartItemDto addedItem = this.cartItemService.addCartItem(cartItemDto,userId,foodId);
         return new ResponseEntity<>(addedItem,HttpStatus.CREATED);
     }
-
+    @PutMapping("/updateItem/{id}")
+    public ResponseEntity<CartItemDto> updateCartItem(@RequestBody CartItemDto cartItemDto,@PathVariable Integer id){
+    	CartItemDto updatedItem =this.cartItemService.updateItem(cartItemDto,id);
+    	return new ResponseEntity<>(updatedItem,HttpStatus.OK);
+    }
     //deleteitem
 
     @DeleteMapping("/deleteitem/{id}")
