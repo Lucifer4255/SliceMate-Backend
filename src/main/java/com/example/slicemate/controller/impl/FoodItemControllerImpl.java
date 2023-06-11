@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class FoodItemControllerImpl implements FoodItemController {
     public String helloWorld(){
         return "Hello World";
     }
-    @GetMapping("/getitem/{id}")
+    @GetMapping("/getItem/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<FoodItemDto> getFoodbyId(@PathVariable Integer id){
     	return ResponseEntity.ok(foodItemService.getFoodItem(id));
     }

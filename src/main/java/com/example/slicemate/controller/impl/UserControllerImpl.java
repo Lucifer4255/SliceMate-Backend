@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,12 +25,14 @@ public class UserControllerImpl implements UserController {
     }
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ResponseEntity<UserDto> getUserDetails(@PathVariable Integer id) {
+		System.out.println("ok");
 		return ResponseEntity.ok(userService.getUser(id));
 	}
 
 	@Override
-	public ResponseEntity<UserDto> updateUserDetails(UserDto userDto, Integer id) {
+	public ResponseEntity<UserDto> updateUserDetails(@RequestBody UserDto userDto, Integer id) {
 		UserDto updatedUser = this.userService.updateUser(userDto,id);
 		return ResponseEntity.ok(updatedUser);
 	}
