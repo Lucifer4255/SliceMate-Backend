@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
+@CrossOrigin
+@RequestMapping("/api/orders")
 public class OrderItemControllerImpl implements OrderItemController {
     @Autowired
     private OrderItemService orderItemService;
 
-    @GetMapping("/orders/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<List<OrderItemDto>> getAllOrders(@PathVariable Integer id) {
         return ResponseEntity.ok(this.orderItemService.getAllOrderItems(id));
     }

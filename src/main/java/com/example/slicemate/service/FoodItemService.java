@@ -9,7 +9,7 @@ public interface FoodItemService {
 
     public FoodItemDto addFoodItem(FoodItemDto foodItemDto);
 
-    public List<FoodItemDto> getAllFoodItems();
+    public List<FoodItemDto> getAllFoodItems(Integer pageNumber,Integer pageSize);
 
     public FoodItemDto updateFoodItems(FoodItemDto foodItemDto, Integer id);
 

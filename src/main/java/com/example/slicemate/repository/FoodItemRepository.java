@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FoodItemRepository extends JpaRepository<FoodItem,Integer> {
 	public List<FoodItem> findByNameContaining(String name);
+
+    public boolean existsByName(String name);
 }

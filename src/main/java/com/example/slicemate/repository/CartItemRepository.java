@@ -13,6 +13,8 @@ public interface CartItemRepository extends JpaRepository<CartItem,Integer> {
     public List<CartItem> findByUser(User user);
     public boolean existsByUser(User user);
     public boolean existsByFoodItem(FoodItem foodItem);
-    
+    public CartItem findByUserAndFoodItem(User user,FoodItem foodItem);
+    public Boolean existsByUserAndFoodItem(User user,FoodItem foodItem);
+
 //    public void deleteAllByUser(User user);
 }

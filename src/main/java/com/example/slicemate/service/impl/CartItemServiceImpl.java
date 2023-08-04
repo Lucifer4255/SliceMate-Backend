@@ -1,4 +1,4 @@
-package com.example.slicemate.servive.impl;
+package com.example.slicemate.service.impl;
 
 import com.example.slicemate.Exception.ResourceAlreadyExistsException;
 import com.example.slicemate.Exception.ResourceNotFoundException;
@@ -58,18 +58,26 @@ public class CartItemServiceImpl implements CartItemService {
 				.orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 		FoodItem foodItem = this.foodRepo.findById(foodId)
 				.orElseThrow(() -> new ResourceNotFoundException("FoodItem", "id", foodId));
-		if(cartItemRepository.existsByUser(user)) {
-			throw new ResourceAlreadyExistsException("cart item","userid",user.getUserId());
+//		if(cartItemRepository.existsByUser(user)) {
+//			throw new ResourceAlreadyExistsException("cart item","userid",user.getUserId());
+//		}
+//		else
+		cartItem.setUser(user);
+//		if(cartItemRepository.existsByFoodItem(foodItem)) {
+//			throw new ResourceAlreadyExistsException("cart item","foodItemid",foodItem.getFoodItemId());
+//		}
+//		else
+		cartItem.setFoodItem(foodItem);
+		if(cartItemRepository.existsByUserAndFoodItem(user,foodItem)){
+			CartItem alreadyCart = this.cartItemRepository.findByUserAndFoodItem(user,foodItem);
+			alreadyCart.setQty(cartItemDto.getQty() + alreadyCart.getQty());
+			CartItem sameCart = this.cartItemRepository.save(alreadyCart);
+			return this.itemToDto(sameCart);
 		}
-		else cartItem.setUser(user);
-		if(cartItemRepository.existsByFoodItem(foodItem)) {
-			throw new ResourceAlreadyExistsException("cart item","foodItemid",foodItem.getFoodItemId());
+		else{
+			CartItem newCart = this.cartItemRepository.save(cartItem);
+			return this.itemToDto(newCart);
 		}
-		else cartItem.setFoodItem(foodItem);
-		
-
-		CartItem newCart = this.cartItemRepository.save(cartItem);
-		return this.itemToDto(newCart);
 	}
 
 	@Override
@@ -91,12 +99,9 @@ public class CartItemServiceImpl implements CartItemService {
 	public CartItemDto updateItem(CartItemDto cartItemDto,Integer id) {
 		CartItem cartItem = this.cartItemRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("cartItem", "id", id));
-		cartItem.setCartItemId(cartItemDto.getCartItemId());
-		cartItem.setFoodItem(cartItemDto.getFoodItem());
 		cartItem.setPrice(cartItemDto.getPrice());
 		cartItem.setQty(cartItemDto.getQty());
-		cartItem.setUser(cartItemDto.getUser());
-		
+
 		CartItem updatedItem = this.cartItemRepository.save(cartItem);
 		return this.itemToDto(updatedItem);
 	}

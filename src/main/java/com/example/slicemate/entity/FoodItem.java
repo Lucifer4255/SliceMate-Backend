@@ -8,12 +8,12 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @ToString
 @Entity
 public class FoodItem {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE,generator="FOOD_SEQ")
-    @SequenceGenerator(name="FOOD_SEQ",sequenceName="FOOD_SEQ",allocationSize=1)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer FoodItemId;
     private String name;
     private String description;

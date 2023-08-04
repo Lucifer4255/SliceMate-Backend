@@ -6,19 +6,16 @@ import com.example.slicemate.entity.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @ToString
 public class CartItemDto {
-	@NotNull
+//	@NotNull
 	private Integer cartItemId;
 //	@NotNull
 	private User user;

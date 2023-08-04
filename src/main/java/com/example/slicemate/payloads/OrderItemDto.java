@@ -1,6 +1,7 @@
 package com.example.slicemate.payloads;
 
-import java.sql.Date;
+//import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 
 import com.example.slicemate.entity.FoodItem;
@@ -8,28 +9,27 @@ import com.example.slicemate.entity.User;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @ToString
 public class OrderItemDto {
-	@NotNull
+//	@NotNull
 	private Integer orderItemId;
-	@NotNull
+//	@NotNull
 	private FoodItem foodItem;
-	@NotNull
+//	@NotNull
 	private Integer qty;
-	@NotNull
+//	@NotNull
 	private Double price;
-	@NotNull
+//	@NotNull
 	private User user;
-	@NotNull
-	private Date orderedAt;
+//	@NotNull
+	private String orderedAt;
+//	@NotNull
+	private String address;
 }

@@ -9,11 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 @Entity
 public class CartItem {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE,generator="CART_SEQ")
-    @SequenceGenerator(name="CART_SEQ",sequenceName="CART_SEQ",allocationSize=1)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer cartItemId;
     @ManyToOne
     @JoinColumn(name="user")

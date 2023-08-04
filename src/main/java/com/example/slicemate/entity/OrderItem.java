@@ -11,11 +11,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 @Entity
 public class OrderItem {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE,generator="ORDER_SEQ")
-    @SequenceGenerator(name="ORDER_SEQ",sequenceName="ORDER_SEQ",allocationSize=1)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer orderItemId;
     @OneToOne
     private FoodItem foodItem;
@@ -24,5 +24,6 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name="user")
     private User user;
-    private Timestamp orderedAt;
+    private String address;
+    private String orderedAt;
 }

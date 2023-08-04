@@ -1,4 +1,4 @@
-package com.example.slicemate.servive.impl;
+package com.example.slicemate.service.impl;
 
 import com.example.slicemate.Exception.ResourceAlreadyExistsException;
 import com.example.slicemate.Exception.ResourceNotFoundException;
@@ -50,7 +50,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public OrderItemDto saveItem(OrderItemDto orderItemDto, Integer foodId, Integer userId) {
+    public OrderItemDto saveItem(OrderItemDto orderItemDto,Integer userId,Integer foodId) {
     	OrderItem orderItem=this.dtoToItem(orderItemDto);
         User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User","id",userId));
         FoodItem foodItem = this.foodRepo.findById(foodId).orElseThrow(() -> new ResourceNotFoundException("Food item","id",foodId));

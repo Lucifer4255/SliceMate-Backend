@@ -11,20 +11,22 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @ToString
 @Entity
 @Table(name="User")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Integer userId;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
     private Long phoneNumber;
+    private String token;
 }

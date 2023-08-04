@@ -1,9 +1,5 @@
 package com.example.slicemate.payloads;
 
-import com.example.slicemate.entity.CartItem;
-import com.example.slicemate.entity.OrderItem;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -11,10 +7,11 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
 @ToString
 public class FoodItemDto {
-    @NotNull
+//    @NotNull
     private Integer FoodItemId;
     @NotEmpty
     private String name;
@@ -26,4 +23,5 @@ public class FoodItemDto {
     private String Category;
     @NotNull
     private Double price;
+
 }

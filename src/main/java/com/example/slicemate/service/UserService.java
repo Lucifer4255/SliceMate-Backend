@@ -8,5 +8,7 @@ public interface UserService {
 
 	public UserDto getUser(Integer id);
 
+	public UserDto getUserbyEmail(String email);
+
 	public UserDto updateUser(UserDto userDto, Integer id);
 }

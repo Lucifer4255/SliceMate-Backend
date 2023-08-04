@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/cart")
 public class CartItemControllerImpl implements CartItemController {
     @Autowired
@@ -21,7 +22,7 @@ public class CartItemControllerImpl implements CartItemController {
     @GetMapping("/{id}")
     public ResponseEntity<List<CartItemDto>> showCartItems(@PathVariable Integer id){
 //        cartItemService.showCart(id);
-    	
+
         return ResponseEntity.ok(this.cartItemService.showCart(id));
     }
 
@@ -33,8 +34,9 @@ public class CartItemControllerImpl implements CartItemController {
     }
     @PutMapping("/updateItem/{id}")
     public ResponseEntity<CartItemDto> updateCartItem(@RequestBody CartItemDto cartItemDto,@PathVariable Integer id){
-    	CartItemDto updatedItem =this.cartItemService.updateItem(cartItemDto,id);
-    	return new ResponseEntity<>(updatedItem,HttpStatus.OK);
+        System.out.println("inside put");
+        CartItemDto updatedItem =this.cartItemService.updateItem(cartItemDto,id);
+        return new ResponseEntity<>(updatedItem,HttpStatus.OK);
     }
     //deleteitem
 

@@ -1,4 +1,4 @@
-package com.example.slicemate.servive.impl;
+package com.example.slicemate.service.impl;
 
 import com.example.slicemate.Exception.ResourceAlreadyExistsException;
 import com.example.slicemate.Exception.ResourceNotFoundException;
@@ -8,6 +8,9 @@ import com.example.slicemate.repository.FoodItemRepository;
 import com.example.slicemate.service.FoodItemService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,8 +38,8 @@ public class FoodItemServiceImpl implements FoodItemService {
 	@Override
 	public FoodItemDto addFoodItem(FoodItemDto foodItemDto) {
 		FoodItem foodItem = this.dtoToItem(foodItemDto);
-		if (foodItemRepository.existsById(foodItem.getFoodItemId())) {
-			throw new ResourceAlreadyExistsException("Food Item", "id", foodItem.getFoodItemId());
+		if (foodItemRepository.existsByName(foodItem.getName())) {
+			throw new ResourceAlreadyExistsException("Food Item", "name", foodItem.getName());
 		} else {
 			FoodItem savedItem = this.foodItemRepository.save(foodItem);
 			return this.itemToDto(savedItem);
@@ -44,8 +47,10 @@ public class FoodItemServiceImpl implements FoodItemService {
 	}
 
 	@Override
-	public List<FoodItemDto> getAllFoodItems() {
-		List<FoodItem> items = (List<FoodItem>) foodItemRepository.findAll();
+	public List<FoodItemDto> getAllFoodItems(Integer pageNumber,Integer pageSize) {
+		Pageable p = PageRequest.of(pageNumber,pageSize);
+		Page<FoodItem> pageItems= foodItemRepository.findAll(p);
+		List<FoodItem> items = (List<FoodItem>) pageItems.getContent();
 		List<FoodItemDto> itemDtos = items.stream().map(foodItem -> this.itemToDto(foodItem))
 				.collect(Collectors.toList());
 		return itemDtos;
@@ -55,7 +60,7 @@ public class FoodItemServiceImpl implements FoodItemService {
 	public FoodItemDto updateFoodItems(FoodItemDto foodItemDto, Integer id) {
 		FoodItem foodItem = this.foodItemRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Food Item", "id", id));
-		foodItem.setFoodItemId(foodItemDto.getFoodItemId());
+//		foodItem.setFoodItemId(foodItemDto.getFoodItemId());
 		foodItem.setName(foodItemDto.getName());
 		foodItem.setCategory(foodItemDto.getCategory());
 		foodItem.setDescription(foodItemDto.getDescription());

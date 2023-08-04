@@ -15,9 +15,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @ToString
 public class UserDto {
-    @NotNull
+//    @NotNull
     private Integer userId;
     @NotEmpty
     @Size(min = 4,message = "Name must be 4 characters atleast")
@@ -33,4 +34,5 @@ public class UserDto {
     @NotNull
 //    @Range(min=10,max=10,message = "Phone number must be valid")
     private Long phoneNumber;
+    private String token;
 }
