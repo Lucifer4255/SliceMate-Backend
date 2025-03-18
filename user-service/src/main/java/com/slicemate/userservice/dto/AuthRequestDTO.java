@@ -11,15 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRequestDTO {
-    @NotBlank(message="UserName is required")
-    private String username;
-    @NotBlank(message="Password is required")
+public class AuthRequestDTO {
+    private String usernameOrEmail;
     private String password;
-
-    @Email(message="Email is invalid")
-    @NotBlank(message="Email is required")
-    private String email;
-
-    private String role;
 }

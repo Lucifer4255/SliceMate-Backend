@@ -15,3 +15,16 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+resilience4j:
+  circuitbreaker:
+    instances:
+      imageService:
+        failureRateThreshold: 55
+        waitDurationInOpenState: 5000ms
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowSize: 10
+  retry:
+    instances:
+      imageService:
+        maxAttempts: 3
+        waitDuration: 2000ms

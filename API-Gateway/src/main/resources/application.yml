@@ -10,20 +10,39 @@ spring:
           - id: user-service
             uri: lb://USER-SERVICE
             predicates:
-              - Path=/users/**
+              - Path=/auth/**
+            filters:
+              - name: AuthenticationFilter
           - id: food-service
             uri: lb://FOOD-SERVICE
             predicates:
               - Path=/food/**
+            filters:
+              - name: AuthenticationFilter
           - id: cart-service
             uri: lb://CART-SERVICE
             predicates:
               - Path=/cart/**
+            filters:
+              - name: AuthenticationFilter
           - id: order-service
             uri: lb://ORDER-SERVICE
             predicates:
               - Path=/orders/**
-
+            filters:
+              - name: AuthenticationFilter
+          - id: image-service
+            uri: lb://IMAGE-SERVICE
+            predicates:
+              - Path=/images/**
+            filters:
+              - name: AuthenticationFilter
+          - id: payment-service
+            uri: lb://PAYMENT-SERVICE
+            predicates:
+              - Path=/payments/**
+            filters:
+              - name: AuthenticationFilter
 eureka:
   client:
     register-with-eureka: true

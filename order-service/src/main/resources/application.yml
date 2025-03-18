@@ -11,7 +11,53 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 5
+          multiplier: 2.0
+          stateless: true
+        acknowledge-mode: auto
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5000ms
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+    instances:
+      userService:
+        baseConfig: default
+      foodService:
+        baseConfig: default
+      paymentService:
+        baseConfig: default
+      cartService:
+        baseConfig: default
+
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 2000ms
+    instances:
+      userService:
+        baseConfig: default
+      foodService:
+        baseConfig: default
+      paymentService:
+        baseConfig: default
+      cartService:
+        baseConfig: default

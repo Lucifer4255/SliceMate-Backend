@@ -4,8 +4,10 @@ import com.slicemate.foodservice.dto.FoodItemDTO;
 import com.slicemate.foodservice.service.FoodItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,9 +33,9 @@ public class FoodItemController {
         return ResponseEntity.ok(foodItemService.getFoodItemsByCategory(category));
     }
 
-    @PostMapping()
-    public ResponseEntity<FoodItemDTO> addFoodItem(@RequestBody FoodItemDTO foodItemDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(foodItemService.addFoodItem(foodItemDTO));
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FoodItemDTO> addFoodItem(@RequestBody FoodItemDTO foodItemDTO,@RequestParam MultipartFile file){
+        return ResponseEntity.status(HttpStatus.CREATED).body(foodItemService.addFoodItem(foodItemDTO,file));
     }
 
     @DeleteMapping("/{id}")

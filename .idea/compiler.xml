@@ -22,17 +22,23 @@
         <module name="cart-service" />
         <module name="food-service" />
         <module name="order-service" />
+        <module name="payment-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common" target="23" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="API-Gateway" options="-parameters" />
       <module name="cart-service" options="-parameters" />
+      <module name="common" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="food-service" options="-parameters" />
       <module name="image-service" options="-parameters" />
       <module name="order-service" options="-parameters" />
+      <module name="payment-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>

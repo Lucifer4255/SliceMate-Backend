@@ -32,6 +32,7 @@ public class CartItemServiceImpl implements CartItemService {
     @Autowired
     private FoodClient foodClient;
 
+
     @Override
     public List<CartItemDTO> getCartByUserId(Long userId) {
         if (!userClient.exists(userId)){
@@ -39,6 +40,7 @@ public class CartItemServiceImpl implements CartItemService {
         }
         return cartItemRepository.findByUserId(userId).stream().map(CartItemMapper::toCartItemDTO).toList();
     }
+
 
     @Override
     public CartItemDTO addtoCart(CartItemDTO cartItemDTO) {

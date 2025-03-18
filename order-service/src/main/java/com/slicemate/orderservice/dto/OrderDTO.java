@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class OrderDTO {
+    private Long id;
     private Long userId;
     private List<OrderItemDTO> orderItems;
     private Double totalPrice;

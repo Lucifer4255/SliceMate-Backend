@@ -15,3 +15,46 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+resilience4j:
+  circuitbreaker:
+    instances:
+      authService:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5000ms
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowSize: 10
+      foodService:
+        failureRateThreshold: 60
+        waitDurationInOpenState: 7000ms
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 15
+      paymentService:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5000ms
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowSize: 10
+      userService:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 6000ms
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowSize: 10
+      cartService:
+        failureRateThreshold: 55
+        waitDurationInOpenState: 6000ms
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 12
+
+  retry:
+    instances:
+      paymentService:
+        maxAttempts: 3
+        waitDuration: 2000ms
+      foodService:
+        maxAttempts: 2
+        waitDuration: 3000ms
+      userService:
+        maxAttempts: 3
+        waitDuration: 2000ms
+      cartService:
+        maxAttempts: 3
+        waitDuration: 2500ms
