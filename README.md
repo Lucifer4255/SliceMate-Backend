@@ -31,5 +31,3 @@ Microservices-based backend for a Pizza Delivery Application built with Spring B
 Create `.env` files where necessary or configure via GitHub Secrets.
 
 ---
-
-Is this what you were looking for? Want me to add a simple usage example?
